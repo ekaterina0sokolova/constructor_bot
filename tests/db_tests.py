@@ -11,7 +11,6 @@ class TestDatabase(unittest.TestCase):
         connect_to_db()
 
     def setUp(self):
-        # Очистка базы данных перед каждым тестом
         with db_session:
             Dialog.select().delete()
             Assistant.select().delete()
@@ -38,12 +37,10 @@ class TestDatabase(unittest.TestCase):
         with db_session:
             create_dialog(chat_id, api_key)
             
-            # Тест обновления языка
             update_dialog(chat_id, language='ru')
             dialog = get_dialog(chat_id)
             self.assertEqual(dialog.language, 'ru')
             
-            # Тест обновления статуса подписки
             update_dialog(chat_id, subscription_status='pro')
             dialog = get_dialog(chat_id)
             self.assertEqual(dialog.subscription_status, 'pro')
@@ -70,7 +67,6 @@ class TestDatabase(unittest.TestCase):
         with db_session:
             create_dialog(chat_id, api_key)
             
-            # Создаем несколько ассистентов
             assistant_ids = []
             for i in range(3):
                 assistant_id = f"test_assistant_{i}"
@@ -78,7 +74,6 @@ class TestDatabase(unittest.TestCase):
                 create_db_assistant(assistant_id, chat_id, thread_id)
                 assistant_ids.append(assistant_id)
             
-            # Проверяем получение списка ассистентов
             result = get_dialog_assistants_ids(chat_id)
             self.assertEqual(set(result), set(assistant_ids))
 
