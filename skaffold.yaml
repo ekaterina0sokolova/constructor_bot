@@ -1,0 +1,20 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+
+build:
+  platforms: ["linux/amd64"]
+  local:
+    push: true
+  artifacts:
+  - image: worken-constructor-bot
+    docker:
+      dockerfile: Dockerfile
+
+manifests:
+  rawYaml:
+  - cloudrun.yaml
+
+deploy:
+  cloudrun:
+    projectid: pom4h-bank
+    region: us-central1

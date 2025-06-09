@@ -1,0 +1,7 @@
+python-telegram-bot==13.13
+python-dotenv
+pyjwt
+pony
+psycopg2-binary
+requests
+openai

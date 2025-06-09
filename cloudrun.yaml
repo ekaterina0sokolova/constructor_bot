@@ -1,0 +1,47 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: worken-constructor-bot
+  annotations:
+    serving.knative.dev/creator: atfpom4h@gmail.com
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: '1'
+        run.googleapis.com/cloudsql-instances: pom4h-bank:us-central1:pg16
+        run.googleapis.com/network-interfaces: '[{"network":"default","subnetwork":"default"}]'
+        run.googleapis.com/vpc-access-egress: private-ranges-only
+        run.googleapis.com/client-name: cloud-console
+    spec:
+      containers:
+      - image: worken-constructor-bot
+        ports:
+        - name: http1
+          containerPort: 3000
+        env:
+        - name: WEBHOOK_PORT
+          value: 3000
+        - name: WEBHOOK_URL
+          value: https://worken-constructor-bot-j2bs2w5lxq-uc.a.run.app
+        - name: SERVER_PORT
+          value: 3000
+        - name: BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: WORKEN_CONSTRUCTOR_BOT_TOKEN
+              key: WORKEN_CONSTRUCTOR_BOT_TOKEN
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: DATABASE_URL
+              key: DATABASE_URL
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: AUTH_SECRET
+              key: AUTH_SECRET
+        - name: BACKEND_URL
+          value: https://api.worken.ai
+        - name: OPENAI_API_BASE_URL
+          value: https://openai.worken.ai
