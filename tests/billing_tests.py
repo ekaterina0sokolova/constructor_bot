@@ -12,7 +12,6 @@ class TestBilling(unittest.TestCase):
         connect_to_db()
 
     def setUp(self):
-        # Очистка базы данных перед каждым тестом
         with db_session:
             Dialog.select().delete()
             Assistant.select().delete()
@@ -44,14 +43,9 @@ class TestBilling(unittest.TestCase):
             
             # Тест с достаточным количеством токенов
             self.assertTrue(is_enough_tokens(chat_id))
-            
-            # Тест с недостаточным количеством токенов
-            # TODO: Добавить тест с недостаточным количеством токенов
-            # Это потребует модификации функции is_enough_tokens для тестирования
 
     @patch('billing.billing_module.requests.post')
     def test_add_tokens(self, mock_post):
-        # Настройка мока
         mock_response = MagicMock()
         mock_response.json.return_value = {"success": True, "tokens": 1000}
         mock_post.return_value = mock_response
@@ -70,7 +64,6 @@ class TestBilling(unittest.TestCase):
 
     @patch('billing.billing_module.requests.get')
     def test_get_balance(self, mock_get):
-        # Настройка мока
         mock_response = MagicMock()
         mock_response.json.return_value = {"balance": 1000}
         mock_get.return_value = mock_response
