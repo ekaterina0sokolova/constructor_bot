@@ -1,0 +1,28 @@
+
+План блочного тестирования.
+
+| ID  | Описание теста | Объект тестирования | Входные данные | Ожидаемый результат |
+|-----|----------------|---------------------|----------------|---------------------|
+| Б1  | Проверка создания ассистента в системе с корректными параметрами | create_assistant | chat_id = "test_chat_1", api_key = "test_api_key", name = "Test Assistant", instructions = "Test instructions" | Создан ассистент с id = "test_assistant_id", name = "Test Assistant", instructions = "Test instructions" |
+| Б2  | Проверка обновления параметров существующего ассистента | update_assistant | chat_id = "test_chat_2", api_key = "test_api_key", assistant_id = "test_assistant_id", new_name = "Updated Assistant", new_instructions = "Updated instructions" | Ассистент обновлён с name = "Updated Assistant", instructions = "Updated instructions" |
+| Б3  | Проверка удаления ассистента из системы | delete_assistant | chat_id = "test_chat_3", api_key = "test_api_key", assistant_id = "test_assistant_id" | Ассистент удалён, возвращено deleted = True, попытка получения ассистента вызывает ValueError |
+| Б4  | Проверка получения данных об ассистенте по его идентификатору | get_assistant | chat_id = "test_chat_4", api_key = "test_api_key", assistant_id = "test_assistant_id" | Возвращены данные ассистента с id = "test_assistant_id", name = "Test Assistant", instructions = "Test instructions" |
+| Б5  | Проверка статуса подписки пользователя | check_subscription | chat_id = "test_chat_1", api_key = "test_api_key", subscription = "free", затем "pro" после обновления | Возвращается True для "free", False для "pro" до обновления; True для обоих после обновления на "pro" |
+| Б6  | Проверка наличия достаточного количества токенов | is_enough_tokens | chat_id = "test_chat_2", api_key = "test_api_key" | Возвращается True для достаточного количества токенов |
+| Б7  | Проверка добавления токенов на баланс пользователя | add_tokens | chat_id = "test_chat_3", api_key = "test_api_key", amount = 1000 | Возвращается результат с success = True, tokens = 1000 |
+| Б8  | Проверка получения текущего баланса пользователя | get_balance | chat_id = "test_chat_4", api_key = "test_api_key" | Возвращается результат с balance = 1000 |
+| Б9  | Проверка обновления статуса подписки | update_subscription_status | chat_id = "test_chat_5", api_key = "test_api_key", subscription = "pro", затем "free" | Статус подписки обновляется до "pro", затем до "free" |
+| Б10 | Проверка создания диалога в базе данных | create_dialog | chat_id = "test_chat_1", api_key = "test_api_key" | Диалог создан с chat_id = "test_chat_1", api_key = "test_api_key", confirmed = False, language = "en", subscription_status = "free" |
+| Б11 | Проверка обновления параметров диалога | update_dialog | chat_id = "test_chat_2", api_key = "test_api_key", language = "ru", subscription_status = "pro" | Параметры диалога обновлены: language = "ru", subscription_status = "pro" |
+| Б12 | Проверка создания записи об ассистенте в базе данных | create_db_assistant | chat_id = "test_chat_3", api_key = "test_api_key", assistant_id = "test_assistant_1", thread_id = "test_thread_1" | Ассистент создан с assistant_id = "test_assistant_1", thread_id = "test_thread_1" |
+| Б13 | Проверка получения списка идентификаторов ассистентов для диалога | get_dialog_assistants_ids | chat_id = "test_chat_4", api_key = "test_api_key", несколько ассистентов с assistant_id = "test_assistant_0..2", thread_id = "test_thread_0..2" | Возвращается список идентификаторов всех созданных ассистентов |
+| Б14 | Проверка удаления ассистента из базы данных | delete_db_assistant | chat_id = "test_chat_5", api_key = "test_api_key", assistant_id = "test_assistant_1", thread_id = "test_thread_1" | Ассистент удалён, попытка получения ассистента вызывает ValueError |
+| Б15 | Проверка экранирования строки, начинающейся с точки | add_character_before_special | string = ".ertyuj" | Возвращается строка "\\.ertyuj" |
+| Б16 | Проверка экранирования строки, заканчивающейся точкой | add_character_before_special | string = "ertyuj." | Возвращается строка "ertyuj\\." |
+| Б17 | Проверка экранирования строки с двумя точками | add_character_before_special | string = "ertyuj.." | Возвращается строка "ertyuj\\.\\." |
+| Б18 | Проверка экранирования строки только со специальными символами | add_character_before_special | string = "*_[]{}" | Возвращается строка "\\*\\_\\[\\]\\{\}" |
+| Б19 | Проверка экранирования пустой строки | add_character_before_special | string = "" | Возвращается пустая строка "" |
+| Б20 | Проверка экранирования строки с числовыми значениями | add_character_before_special | string = "-3.5" | Возвращается строка "\\-3\\.5" |
+| Б21 | Проверка создания нового диалога | create_dialog | user_id = "1236" | Диалог создан с user_id = "1236", confirmed = False, language = "en", subscription_status = "free", current_assistant_id = "", current_llm_id = "llm_1", assistants_list = [], llm_list = ["llm_1", "llm_2", "llm_3", "llm_4"], save_context = 1 |
+| Б22 | Проверка получения информации о новом диалоге | get_dialog | user_id = "1235" | Возвращается словарь с user_id = "1235", language = "en", subscription_status = "free", current_assistant_id = "", current_llm_id = "llm_1", assistants_list = [], llm_list = ["llm_1", "llm_2", "llm_3", "llm_4"], save_context = 1 |
+| Б23 | Проверка изменения параметров нового диалога | update_dialog | user_id = "1234", language = "ru", subscription_status = "pro", current_llm_id = "llm_2", save_context = 0, assistants_list = ["as_1"] | Параметры диалога обновлены: language = "ru", subscription_status = "pro", current_llm_id = "llm_2", save_context = 0, assistants_list = ["as_1"] |
