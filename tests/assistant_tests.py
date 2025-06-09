@@ -12,14 +12,12 @@ class TestAssistant(unittest.TestCase):
         connect_to_db()
 
     def setUp(self):
-        # Очистка базы данных перед каждым тестом
         with db_session:
             Dialog.select().delete()
             Assistant.select().delete()
 
     @patch('assistant.assistant_module.OpenAI')
     def test_create_assistant(self, mock_openai):
-        # Настройка мока
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
         mock_client.beta.assistants.create.return_value = MagicMock(
@@ -47,7 +45,6 @@ class TestAssistant(unittest.TestCase):
 
     @patch('assistant.assistant_module.OpenAI')
     def test_update_assistant(self, mock_openai):
-        # Настройка мока
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
         mock_client.beta.assistants.update.return_value = MagicMock(
@@ -73,7 +70,6 @@ class TestAssistant(unittest.TestCase):
 
     @patch('assistant.assistant_module.OpenAI')
     def test_delete_assistant(self, mock_openai):
-        # Настройка мока
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
         mock_client.beta.assistants.delete.return_value = MagicMock(
@@ -97,7 +93,6 @@ class TestAssistant(unittest.TestCase):
 
     @patch('assistant.assistant_module.OpenAI')
     def test_get_assistant(self, mock_openai):
-        # Настройка мока
         mock_client = MagicMock()
         mock_openai.return_value = mock_client
         mock_client.beta.assistants.retrieve.return_value = MagicMock(
